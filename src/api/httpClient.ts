@@ -1,7 +1,12 @@
 import axios from "axios";
 
+function resolveBaseUrl(): string {
+  const raw = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(/\/+$/, "");
+  return raw.endsWith("/api") ? raw : `${raw}/api`;
+}
+
 export const httpClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: resolveBaseUrl(),
 });
 
 httpClient.interceptors.request.use((config) => {
